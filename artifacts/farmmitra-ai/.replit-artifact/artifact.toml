@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "FarmMitra AI"
+description = "A farmer-first crop companion for photo-based crop issue guidance, local language support, and mandi price alerts."
+version = "1.0.0"
+id = "artifacts/farmmitra-ai"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24165
+
+[services.development]
+run = "pnpm --filter @workspace/farmmitra-ai run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/farmmitra-ai", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/farmmitra-ai/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24165"
+BASE_PATH = "/"
